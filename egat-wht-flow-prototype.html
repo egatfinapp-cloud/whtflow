@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EGAT WHT FLOW — ต้นแบบหน้าแรก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#003B8E;--blue2:#1556A6;--yellow:#F4B400;--bg:#F7F8FA;--surface:#fff;--border:#E5E7EB;--text:#1F2937;--muted:#6B7280;--ok:#15803D;--warn:#D97706;--err:#DC2626;--info:#2563EB}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"IBM Plex Sans Thai","Noto Sans Thai",Tahoma,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+.bar{display:flex;align-items:center;gap:24px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--blue)}
+.logo{width:34px;height:34px;border:2px dashed var(--yellow);border-radius:4px;display:grid;place-items:center;font-size:10px;color:var(--muted);font-weight:500}
+nav{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--muted)}
+nav a:hover{color:var(--blue)}
+.btn{display:inline-block;border:1px solid var(--blue);background:var(--blue);color:#fff;padding:9px 18px;border-radius:4px;font:500 14px inherit;font-family:inherit;cursor:pointer}
+.btn:hover{background:var(--blue2)}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.ghost:hover{background:#EEF3FB}
+.user{display:none;align-items:center;gap:10px;font-size:14px}
+.user b{display:block;line-height:1.2}.user small{color:var(--muted)}
+.av{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:600}
+body.in .user{display:flex}body.in #login{display:none}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:56px 0 48px}
+h1{font-size:34px;line-height:1.3;margin:0 0 14px;color:var(--blue);font-weight:700}
+.hero p{color:var(--muted);margin:0 0 24px;max-width:56ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.name{font-size:13px;color:var(--muted);margin-bottom:10px}
+/* certificate preview */
+.cert{background:#fff;border:1px solid var(--border);border-top:4px solid var(--yellow);padding:18px 20px;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.cert h3{margin:0;text-align:center;font-size:14px;color:var(--blue)}
+.cert .sub{text-align:center;color:var(--muted);margin-bottom:10px}
+.cert dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0 0 10px}
+.cert dt{color:var(--muted)}.cert dd{margin:0}
+.cert table{width:100%;border-collapse:collapse}
+.cert th,.cert td{border:1px solid var(--border);padding:4px 8px;text-align:left}
+.cert th{background:#F3F4F6;font-weight:500}
+.cert td.n,.cert th.n{text-align:right;font-variant-numeric:tabular-nums}
+.cert tr.tot td{font-weight:600}
+.stamp{margin-top:10px;display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.stamp span:last-child{border:1px dashed var(--warn);color:var(--warn);padding:1px 8px}
+section{padding:40px 0}
+h2{font-size:22px;margin:0 0 20px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);padding:20px;border-radius:4px}
+.card h3{margin:0 0 2px;font-size:17px;color:var(--blue)}
+.card .th{color:var(--muted);font-size:13px;margin-bottom:10px}
+.card ul{margin:0;padding-left:18px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);background:var(--surface);border-radius:4px}
+.step{padding:20px;border-right:1px solid var(--border)}
+.step:last-child{border:0}
+.step i{font-style:normal;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--yellow);color:#1F2937;font-weight:700;font-size:13px;margin-bottom:8px}
+.step b{display:block}.step span{color:var(--muted);font-size:13.5px}
+.status{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:22px}
+.status .empty{color:var(--muted)}
+#acc{display:none}
+body.in #acc{display:block}body.in .status .empty{display:none}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 24px;margin:14px 0}
+.grid small{display:block;color:var(--muted);font-size:12.5px}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:13px;font-weight:500;background:#DCFCE7;color:var(--ok)}
+.warnbox{border-left:4px solid var(--warn);background:#FEF3C7;padding:8px 14px;font-size:14px;margin-top:6px}
+footer{border-top:1px solid var(--border);background:var(--surface);padding:20px 0;color:var(--muted);font-size:13px}
+@media(max-width:860px){.hero,.cards,.steps{grid-template-columns:1fr}.step{border-right:0;border-bottom:1px solid var(--border)}nav{display:none}.bar{justify-content:space-between}.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}}
+@media(prefers-reduced-motion:no-preference){.btn{transition:background .15s}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="brand" href="#top" aria-label="EGAT WHT FLOW หน้าหลัก"><span class="logo" title="พื้นที่สำรองสำหรับโลโก้ที่ได้รับอนุญาต">โลโก้</span>EGAT WHT FLOW</a>
+  <nav aria-label="เมนูหลัก"><a href="#top">หน้าหลัก</a><a href="#how">วิธีใช้งาน</a><a href="#access">ขอสิทธิ์ใช้งาน</a><a href="#contact">ติดต่อผู้ดูแลระบบ</a></nav>
+  <button class="btn" id="login" type="button">เข้าสู่ระบบ One Login</button>
+  <div class="user"><span class="av" aria-hidden="true">ส</span><span><b>สมชาย ใจดี (ตัวอย่าง)</b><small>ฝ่ายบัญชี · ผู้ใช้งาน</small></span><button class="btn ghost" id="logout" type="button">ออกจากระบบ</button></div>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <div class="name">ระบบออกหนังสือรับรองการหักภาษี ณ ที่จ่ายอิเล็กทรอนิกส์</div>
+    <h1>ออกหนังสือรับรองหักภาษี ณ ที่จ่ายได้ง่ายขึ้น ในระบบเดียว</h1>
+    <p>ระบบช่วยให้บุคลากร กฟผ. ที่ได้รับอนุมัติสิทธิ์ สามารถจัดทำหนังสือรับรองการหักภาษี ณ ที่จ่าย ทั้งแบบรายรายการและแบบ Batch พร้อมดาวน์โหลด ส่งอีเมล และตรวจสอบประวัติการออกเอกสารได้อย่างเป็นระบบ</p>
+    <div class="cta"><button class="btn" type="button" onclick="document.getElementById('login').click()">เข้าสู่ระบบด้วย One Login</button><a class="btn ghost" href="#how">ดูวิธีการใช้งาน</a></div>
+  </div>
+  <div class="cert" role="img" aria-label="ตัวอย่างหนังสือรับรองการหักภาษี ณ ที่จ่าย ข้อมูลสมมติ">
+    <h3>หนังสือรับรองการหักภาษี ณ ที่จ่าย</h3>
+    <div class="sub">ตามมาตรา 50 ทวิ แห่งประมวลรัษฎากร · แบบ กฟผ. ภษ.8</div>
+    <dl><dt>ผู้จ่ายเงิน</dt><dd>การไฟฟ้าฝ่ายผลิตแห่งประเทศไทย</dd><dt>ผู้ถูกหักภาษี</dt><dd>บริษัท ตัวอย่าง จำกัด (ข้อมูลสมมติ)</dd><dt>เลขที่</dt><dd>WHT-EXAMPLE-001</dd></dl>
+    <table><tr><th>ประเภทเงินได้พึงประเมิน</th><th class="n">จำนวนเงินที่จ่าย</th><th class="n">ภาษีที่หัก</th></tr>
+    <tr><td>6. อื่นๆ — ค่าบริการ</td><td class="n">100,000.00</td><td class="n">3,000.00</td></tr>
+    <tr class="tot"><td>รวมเงินที่จ่ายและภาษีที่หักนำส่ง</td><td class="n">100,000.00</td><td class="n">3,000.00</td></tr></table>
+    <div class="stamp"><span>ฉบับที่ 1 สำหรับผู้ถูกหักภาษี</span><span>ต้นแบบ · ยังไม่ใช่แบบทางการ</span></div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <div class="cards">
+    <div class="card"><h3>Individual Issuance</h3><div class="th">ออกรายรายการ</div><ul><li>จัดทำหนังสือรับรองฯ ทีละรายการ</li><li>ตรวจสอบข้อมูลก่อนสร้างเอกสาร</li><li>ดาวน์โหลดเอกสารในรูปแบบ PDF</li></ul></div>
+    <div class="card"><h3>Batch Issuance</h3><div class="th">ออกหลายรายการพร้อมกัน</div><ul><li>ดาวน์โหลด Template</li><li>อัปโหลดข้อมูลจาก Excel</li><li>ตรวจสอบข้อผิดพลาดก่อนสร้างเอกสารหลายรายการ</li></ul></div>
+    <div class="card"><h3>History &amp; Reports</h3><div class="th">ประวัติและรายงาน</div><ul><li>ตรวจสอบประวัติการออกเอกสาร</li><li>ดูจำนวนหนังสือรับรองฯ ประจำเดือน</li><li>สรุปยอดเงินและภาษีหัก ณ ที่จ่าย</li></ul></div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2>ขั้นตอนการใช้งาน</h2>
+  <div class="steps">
+    <div class="step"><i>1</i><b>เข้าสู่ระบบ</b><span>พนักงานเข้าสู่ระบบด้วย EGAT One Login</span></div>
+    <div class="step"><i>2</i><b>ขอสิทธิ์ใช้งาน</b><span>ส่งคำขอพร้อมแนบหน้าบันทึกอนุมัติ และระบุช่วงเวลาที่ต้องการใช้งาน</span></div>
+    <div class="step"><i>3</i><b>สร้างเอกสาร</b><span>เมื่อได้รับอนุมัติแล้ว สร้างเอกสารแบบรายรายการหรือแบบ Batch</span></div>
+    <div class="step"><i>4</i><b>ดาวน์โหลด ส่ง และตรวจสอบ</b><span>ดาวน์โหลดเอกสาร ส่งอีเมลผ่านช่องทางที่กำหนด และตรวจสอบประวัติ</span></div>
+  </div>
+</div></section>
+
+<section id="access"><div class="wrap">
+  <h2>สถานะสิทธิ์การใช้งาน</h2>
+  <div class="status">
+    <p class="empty">เข้าสู่ระบบด้วย One Login เพื่อดูสถานะสิทธิ์ของคุณ หากยังไม่มีสิทธิ์ ระบบจะแสดงปุ่มขอสิทธิ์เข้าใช้งาน</p>
+    <div id="acc">
+      <span class="badge">อนุมัติแล้ว</span>
+      <div class="grid">
+        <div><small>ชื่อผู้ใช้</small>สมชาย ใจดี (ตัวอย่าง)</div>
+        <div><small>หน่วยงาน</small>ฝ่ายบัญชี</div>
+        <div><small>เลขที่คำขอ</small>REQ-2569-00012</div>
+        <div><small>เริ่มใช้งาน</small>1 ต.ค. 2569</div>
+        <div><small>หมดอายุ</small>20 ต.ค. 2569</div>
+        <div><small>คงเหลือ</small>7 วัน</div>
+      </div>
+      <div class="warnbox" role="status">สิทธิ์ของคุณจะหมดอายุภายใน 7 วัน ส่งคำขอต่ออายุเพื่อใช้งานต่อเนื่อง</div>
+      <p style="margin:14px 0 0"><button class="btn ghost" type="button">ขอสิทธิ์เข้าใช้งานระบบ</button></p>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer id="contact"><div class="wrap">ต้นแบบหน้าแรกสำหรับทดสอบการออกแบบ ใช้ข้อมูลสมมติ ตัวอย่างหนังสือรับรองในหน้านี้ไม่ใช่แบบทางการของ กฟผ. · ปุ่มเข้าสู่ระบบเป็นเพียงการจำลอง ยังไม่เชื่อมต่อ One Login · ติดต่อผู้ดูแลระบบ: ตามช่องทางที่ กฟผ. กำหนด</div></footer>
+
+<script>
+const b=document.body;
+document.getElementById('login').onclick=()=>{b.classList.add('in');document.getElementById('access').scrollIntoView()};
+document.getElementById('logout').onclick=()=>b.classList.remove('in');
+</script>
+</body>
+</html>
